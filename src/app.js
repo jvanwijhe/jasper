@@ -4,7 +4,7 @@ const { Telegraf } = require('telegraf');
 const hbs = require('hbs')
 
 const app = express();
-const bot = new Telegraf('2108722344:AAE5xZ1eAQFu4Zxif4rK-vYi8KWHeOgAmV8');
+const bot = new Telegraf('');
 
 const publicDirectoryPath = path.join(__dirname, '../public')
 const viewsPath = path.join(__dirname, '../templates/views')
