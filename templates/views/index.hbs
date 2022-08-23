@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>Jasper</title>
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+
+  <body>
+    <div class="main-content">
+
+      {{>header}}
+
+      <form>
+        <fieldset>
+          <legend>Enter your team</legend>
+            <input type="checkbox" id="joe" name="joe">
+            <label for="joe">Joe</label>
+            <input type="checkbox" id="jelle" name="jelle">
+            <label for="jelle">Jelle</label>
+            <input type="checkbox" id="matt" name="matt">
+            <label for="matt">Matt</label>
+            <input type="checkbox" id="nico" name="nico">
+            <label for="nico">Nico</label>
+        </fieldset>
+        <fieldset>
+          <legend>Set 1 score</legend>
+            <input type="number" id=set1>
+            <input type="number" id=set1>
+        </fieldset>
+        <fieldset>
+          <legend>Set 2 score</legend>
+            <input type="number" id=set2>
+            <input type="number" id=set2>
+        </fieldset>
+        <fieldset>
+          <legend>Set 3 score</legend>
+            <input type="number" id=set3>
+            <input type="number" id=set3>
+        </fieldset>
+          <button>Save match</button>
+      </form>
+
+      <p id="message-1"></p>
+      <p id="message-2"></p>
+    </div>
+
+    {{>footer}}
+
+    <script src="/js/app.js"></script>
+  </body>
+
+</html>
