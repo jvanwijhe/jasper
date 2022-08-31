@@ -1,10 +1,13 @@
+require('dotenv').config()
 const path = require('path')
 const express = require('express');
+require('./db/mongoose')
+const Match = require('./models/match')
 const { Telegraf } = require('telegraf');
 const hbs = require('hbs')
 
 const app = express();
-const bot = new Telegraf('');
+const bot = new Telegraf(process.env.BOT_TOKEN);
 
 const publicDirectoryPath = path.join(__dirname, '../public')
 const viewsPath = path.join(__dirname, '../templates/views')
@@ -14,6 +17,7 @@ app.set('view engine', 'hbs')
 app.set('views', viewsPath)
 hbs.registerPartials(partialsPath)
 
+app.use(express.json())
 app.use(express.static(path.join(publicDirectoryPath)))
 
 app.get('', (req, res) => {
@@ -23,6 +27,23 @@ app.get('', (req, res) => {
   })
 })
 
+app.post('/matches', (req, res) => {
+
+  const data = {
+    date: req.body.date,
+    team1: req.body.teams.team1,
+    team2: req.body.teams.team2,
+    scores: req.body.score
+  }
+
+  const match = new Match(data)
+
+  match.save().then(() => {
+    res.status(201).send(match)
+  }).catch((e) => {
+    res.status(400).send(e)
+  }) 
+})
 // method for invoking command start
 
 bot.command('start', ctx => {
@@ -43,9 +64,13 @@ bot.command('help', ctx => {
   })
 })
 
-bot.hears('match', ctx => {
+bot.hears('teams', ctx => {
   console.log('thats a paddlin')
   console.log(ctx.message.text)
+  Match.find({ }).then((matches) => {
+    console.log('the last match was ' + matches[0].team1[0] + '/' + matches[0].team1[1] + ' vs. ' + matches[0].team2[0] + '/' + matches[0].team2[1])
+    console.log('before that ' + matches[1].team1[0] + '/' + matches[1].team1[1] + ' vs. ' + matches[1].team2[0] + '/' + matches[1].team2[1])
+  }) 
   bot.telegram.sendMessage(ctx.chat.id, 'Tell me the teams and scores', {
   })
 })

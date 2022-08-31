@@ -2,13 +2,13 @@ console.log('Client side javascript file is jasperloaded!')
 
 
 const matchForm = document.querySelector('form')
+const date = document.querySelector('input[type="date"]')
 const players = document.querySelectorAll('input[type="checkbox"]')
 const set1 = document.querySelectorAll('#set1')
 const set2 = document.querySelectorAll('#set2')
 const set3 = document.querySelectorAll('#set3')
 
 const setScores =  [ set1, set2, set3 ]
-console.log(setScores)
 
 matchForm.addEventListener('submit', (e) => {
   e.preventDefault()
@@ -36,25 +36,30 @@ matchForm.addEventListener('submit', (e) => {
       matchScore.push(scores)
   }) 
 
-  const teams = { team1: [team1], team2: [team2]}
+  const teams = { team1: team1, team2: team2}
   const match = {
+    date: date.value,
     teams,
     score: matchScore
   }
+  console.log(date.value)
 
-  console.log(match)
-  
+  console.log(JSON.stringify(match))
 
-/*
-  fetch('http://localhost:3000/weather?address=' + location).then((response) => {
+  fetch('http://localhost:3000/matches', {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json'
+    },
+    body: JSON.stringify(match)
+    }).then((response) => {
     response.json().then((data) => {
       if (data.error) {
-        messageOne.textContent = data.error
+        console.log('error', data.error)
       } else {
-        messageOne.textContent = data.location
-        messageTwo.textContent = data.forecast
+        console.log('response', data)
       }
     })
   })
-  */
+  
 })
